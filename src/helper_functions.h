@@ -105,11 +105,10 @@ inline bool read_map_data(const std::string &filename, Map &map) {
     iss_map >> id_i;
 
     // Declare single_landmark:
-    Map::single_landmark_s single_landmark_temp{
-      .id_i = id_i,
-      .x_f = landmark_x_f,
-      .y_f = landmark_y_f
-    };
+    Map::single_landmark_s single_landmark_temp{};
+    single_landmark_temp.id_i = id_i;
+    single_landmark_temp.x_f = landmark_x_f;
+    single_landmark_temp.y_f = landmark_y_f;
 
     // Add to landmark list of map:
     map.landmark_list.push_back(single_landmark_temp);
@@ -143,10 +142,9 @@ inline bool read_control_data(const std::string &filename, std::vector<control_s
     iss_pos >> yawrate;
 
     // Declare single control measurement:
-    control_s meas{
-      .velocity = velocity,
-      .yawrate = yawrate
-    };
+    control_s meas{};
+    meas.velocity = velocity;
+    meas.yawrate = yawrate;
 
     // Add to list of control measurements:
     position_meas.push_back(meas);
@@ -183,11 +181,10 @@ inline bool read_gt_data(const std::string &filename, std::vector<ground_truth> 
     iss_pos >> azimuth;
 
     // Declare single ground truth:
-    ground_truth single_gt{
-      .x = x,
-      .y = y,
-      .theta = azimuth
-    };
+    ground_truth single_gt{};
+    single_gt.x = x;
+    single_gt.y = y;
+    single_gt.theta = azimuth;
 
     // Add to list of control measurements and ground truth:
     gt.push_back(single_gt);
@@ -224,10 +221,9 @@ inline bool read_landmark_data(const std::string &filename, std::vector<Landmark
     iss_obs >> local_y;
 
     // Declare single landmark measurement:
-    LandmarkObs meas{
-      .x = local_x,
-      .y = local_y
-    };
+    LandmarkObs meas{};
+    meas.x = local_x;
+    meas.y = local_y;
 
     // Add to list of control measurements:
     observations.push_back(meas);

@@ -28,7 +28,13 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   // Randomly generate particles
   std::default_random_engine gen;
   for (int i = 0; i < num_particles; i++) {
-    particles.push_back(Particle{.id=i, .x=dist_x(gen), .y=dist_y(gen), .theta=dist_theta(gen), .weight=1});
+    Particle p{};
+    p.id = i;
+    p.x = dist_x(gen);
+    p.y = dist_y(gen);
+    p.theta = dist_theta(gen);
+    p.weight = 1;
+    particles.push_back(p);
     weights.push_back(1.0);
   }
   is_initialized = true;
@@ -80,14 +86,18 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     landmarks[l.id_i] = l;
   }
 
-  for (int i = 0; i < particles.size(); i++) {
+  for (uint i = 0; i < particles.size(); i++) {
     Particle *p = &particles[i];
     // compute predicted observations
     std::vector<LandmarkObs> pred_obs;
     for (auto l : map_landmarks.landmark_list) {
       double d = dist(l.x_f, l.y_f, p->x, p->y);
       if (d <= sensor_range) {
-        pred_obs.push_back(LandmarkObs{.x=l.x_f, .y=l.y_f, .id=l.id_i});
+        LandmarkObs landmarkObs{};
+        landmarkObs.x = l.x_f;
+        landmarkObs.y = l.y_f;
+        landmarkObs.id = l.id_i;
+        pred_obs.push_back(landmarkObs);
       }
     }
 
@@ -95,10 +105,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     std::vector<LandmarkObs> map_obs;
     map_obs.reserve(observations.size());
     for (auto obs : observations) {
-      map_obs.push_back(LandmarkObs{
-        .x = p->x + cos(p->theta) * obs.x - sin(p->theta) * obs.y,
-        .y = p->y + sin(p->theta) * obs.x + cos(p->theta) * obs.y,
-      });
+      LandmarkObs landmarkObs{};
+      landmarkObs.x = p->x + cos(p->theta) * obs.x - sin(p->theta) * obs.y;
+      landmarkObs.y = p->y + sin(p->theta) * obs.x + cos(p->theta) * obs.y;
+      map_obs.push_back(landmarkObs);
     }
 
     // associate observations with landmarks
