@@ -10,7 +10,6 @@
 #include <iostream>
 #include <iterator>
 #include <numeric>
-#include <random>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -26,7 +25,6 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   std::normal_distribution<double> dist_theta(theta, std[2]);
 
   // Randomly generate particles
-  std::default_random_engine gen;
   for (int i = 0; i < num_particles; i++) {
     Particle p{};
     p.id = i;
@@ -45,7 +43,6 @@ void ParticleFilter::prediction(double delta_t, double std[], double velocity, d
   std::normal_distribution<double> dist_noise_x(0, std[0]);
   std::normal_distribution<double> dist_noise_y(0, std[1]);
   std::normal_distribution<double> dist_noise_theta(0, std[2]);
-  std::default_random_engine gen;
 
   for (auto p = particles.begin(); p < particles.end(); p++) {
     // random noises

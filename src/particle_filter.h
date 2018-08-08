@@ -9,6 +9,8 @@
 #ifndef PARTICLE_FILTER_H_
 #define PARTICLE_FILTER_H_
 
+#include <random>
+
 #include "helper_functions.h"
 
 struct Particle {
@@ -114,6 +116,9 @@ public:
   const bool initialized() const {
     return is_initialized;
   }
+
+private:
+  std::default_random_engine gen;
 };
 
 
